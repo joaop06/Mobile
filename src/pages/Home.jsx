@@ -17,26 +17,9 @@ const config = { headerShown: false };
 const Home = () => {
     return (
         <Container>
-            <Title>Controle Financeiro</Title>
-
-            <Input
-                placeholder="Descrição"
-                placeholderTextColor="#555555"
-            />
-
-            <Input
-                placeholder="Valor"
-                keyboardType="numeric"
-                placeholderTextColor="#555555"
-            />
-
-            <Button>Adicionar</Button>
-
+            <Title>Dashboards Controle Financeiro</Title>
 
             <Button navigateTo="Login">Login</Button>
-            <Button navigateTo="Releases">Lançamentos</Button>
-            <Button navigateTo="Categories">Categorias</Button>
-            <Button navigateTo="MonthEndClosing">Fechamento do Mês</Button>
         </Container>
     );
 }

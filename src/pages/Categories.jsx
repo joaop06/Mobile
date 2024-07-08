@@ -1,4 +1,5 @@
 import Title from '../components/Title';
+import Container from '../components/Container';
 
 /**
  * ***** Tela de Categorias *****
@@ -11,8 +12,10 @@ import Title from '../components/Title';
 const config = { title: 'Categorias', headerTitleStyle: { fontWeight: 'bold', color: '#FFA500' } };
 const Categories = () => {
     return (
-        <Title>Tela de Categorias</Title>
-    )
+        <Container>
+            <Title>Tela de Categorias</Title>
+        </Container>
+    );
 }
 
 export default { name: 'Categories', screen: Categories, config }

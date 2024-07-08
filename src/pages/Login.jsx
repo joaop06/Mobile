@@ -1,4 +1,5 @@
 import Title from '../components/Title';
+import Container from '../components/Container';
 
 /**
  * ***** Tela de Login e Cadastro *****
@@ -11,8 +12,10 @@ import Title from '../components/Title';
 const config = { title: 'Login', headerTitleStyle: { fontWeight: 'bold', color: '#FFA500' } };
 const Login = () => {
     return (
-        <Title>Tela de Login e Cadastro</Title>
-    )
+        <Container>
+            <Title>Tela de Login e Cadastro</Title>
+        </Container>
+    );
 }
 
 export default { name: 'Login', screen: Login, config }

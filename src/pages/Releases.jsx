@@ -1,4 +1,5 @@
 import Title from '../components/Title';
+import Container from '../components/Container';
 
 /**
  * ***** Tela de Lançamentos *****
@@ -11,8 +12,10 @@ import Title from '../components/Title';
 const config = { title: 'Lançamentos', headerTitleStyle: { fontWeight: 'bold', color: '#FFA500' } };
 const Releases = () => {
     return (
-        <Title>Tela de Lançamentos</Title>
-    )
+        <Container>
+            <Title>Tela de Lançamentos</Title>
+        </Container>
+    );
 }
 
 export default { name: 'Releases', screen: Releases, config };

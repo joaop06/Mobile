@@ -1,4 +1,5 @@
 import Title from '../components/Title';
+import Container from '../components/Container';
 
 /**
  * ***** Tela de Fechamento do Mês *****
@@ -11,9 +12,10 @@ import Title from '../components/Title';
 const config = { title: 'Fechamento do Mês', headerTitleStyle: { fontWeight: 'bold', color: '#FFA500' } };
 const MonthEndClosing = () => {
     return (
-        <Title>Tela de Fechamento do Mês</Title>
-    )
+        <Container>
+            <Title>Tela de Fechamento do Mês</Title>
+        </Container>
+    );
 }
-
 
 export default { name: 'MonthEndClosing', screen: MonthEndClosing, config }
