@@ -1,4 +1,5 @@
 import Title from '../components/Title';
+import { Colors } from '../utils/Stylization';
 import Container from '../components/Container';
 
 /**
@@ -9,7 +10,11 @@ import Container from '../components/Container';
  * 
  */
 
-const config = { title: 'Login', headerTitleStyle: { fontWeight: 'bold', color: '#FFA500' } };
+const config = {
+    title: 'Login',
+    headerTitle: 'Login',
+    headerTitleStyle: { fontWeight: 'bold', color: Colors.blue }
+};
 const Login = () => {
     return (
         <Container>

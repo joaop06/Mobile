@@ -1,5 +1,10 @@
 import Title from '../components/Title';
 import Container from '../components/Container';
+import { useNavigation } from '@react-navigation/native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+
+import { Components } from '../utils/Stylization';
+const { Icons } = Components
 
 /**
  * ***** Tela de Categorias *****
@@ -9,8 +14,19 @@ import Container from '../components/Container';
  *  - Exemplo de categorias: Alimentação, Transporte, Lazer, Contas Fixas, etc.
  */
 
-const config = { title: 'Categorias', headerTitleStyle: { fontWeight: 'bold', color: '#FFA500' } };
+var navigation
+const config = {
+    headerShown: false,
+    title: 'Categorias',
+    tabBarIcon: () => <MaterialCommunityIcons
+        name="shape"
+        size={30}
+        color={navigation?.isFocused() ? Icons.focus : Icons.unfocus}
+    />
+};
 const Categories = () => {
+    navigation = useNavigation()
+
     return (
         <Container>
             <Title>Tela de Categorias</Title>

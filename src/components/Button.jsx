@@ -1,4 +1,5 @@
 import React from 'react';
+import { Colors } from '../utils/Stylization';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
@@ -6,7 +7,7 @@ const Button = ({ children, navigateTo }) => {
     const navigation = useNavigation();
 
     return (
-        <TouchableOpacity style={styles.button} onPress={() => navigateTo ? navigation.navigate(navigateTo) : null}>
+        <TouchableOpacity style={styles.button} onPress={() => { if (navigateTo) navigation.navigate(navigateTo) }}>
             <Text style={styles.buttonText}>{children}</Text>
         </TouchableOpacity>
     );
@@ -18,12 +19,12 @@ const styles = StyleSheet.create({
         padding: 15,
         borderRadius: 10,
         alignItems: 'center',
-        backgroundColor: '#FFD700', // Amarelo
+        backgroundColor: Colors.blue,
     },
     buttonText: {
-        fontSize: 16,
-        color: '#000000', // Preto
+        fontSize: 18,
         fontWeight: 'bold',
+        color: Colors.white,
     },
 });
 

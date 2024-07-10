@@ -1,5 +1,10 @@
 import Title from '../components/Title';
 import Container from '../components/Container';
+import { useNavigation } from '@react-navigation/native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+
+import { Components } from '../utils/Stylization';
+const { Icons } = Components
 
 /**
  * ***** Tela de Lançamentos *****
@@ -9,8 +14,19 @@ import Container from '../components/Container';
  *  - Botões para salvar ou cancelar lançamento.
  */
 
-const config = { title: 'Lançamentos', headerTitleStyle: { fontWeight: 'bold', color: '#FFA500' } };
+var navigation
+const config = {
+    headerShown: false,
+    title: 'Lançamentos',
+    tabBarIcon: () => <MaterialCommunityIcons
+        name="rocket-launch"
+        size={30}
+        color={navigation?.isFocused() ? Icons.focus : Icons.unfocus}
+    />
+};
 const Releases = () => {
+    navigation = useNavigation()
+
     return (
         <Container>
             <Title>Tela de Lançamentos</Title>

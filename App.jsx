@@ -28,7 +28,6 @@ function MyTabs() {
   return (
     <Tab.Navigator>
       {newTabScreen(Home.name, Home.screen, Home.config)}
-      {newTabScreen(Login.name, Login.screen, Login.config)}
       {newTabScreen(Releases.name, Releases.screen, Releases.config)}
       {newTabScreen(Categories.name, Categories.screen, Categories.config)}
       {newTabScreen(MonthEndClosing.name, MonthEndClosing.screen, MonthEndClosing.config)}
@@ -41,6 +40,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         {newStackScreen('Main', MyTabs, { headerShown: false })}
+        {newStackScreen(Login.name, Login.screen, Login.config)}
       </Stack.Navigator>
     </NavigationContainer>
   )

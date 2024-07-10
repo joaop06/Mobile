@@ -1,4 +1,5 @@
 import React from 'react';
+import { Colors } from '../utils/Stylization';
 import { TextInput, StyleSheet } from 'react-native';
 
 const Input = ({ placeholder, keyboardType, placeholderTextColor }) => {
@@ -19,8 +20,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 15,
         marginBottom: 20,
-        borderColor: '#FFA500', // Laranja
-        backgroundColor: '#FFFFFF', // Branco
+        borderColor: Colors.blue,
+        backgroundColor: Colors.white,
     },
 });
 
