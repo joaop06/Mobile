@@ -3,11 +3,16 @@ import { Colors } from '../utils/Stylization';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const Button = ({ children, navigateTo }) => {
+const Button = ({ children, navigateTo, timeoutNavigate = 0, onPress = () => { } }) => {
     const navigation = useNavigation();
 
     return (
-        <TouchableOpacity style={styles.button} onPress={() => { if (navigateTo) navigation.navigate(navigateTo) }}>
+        <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+                onPress()
+                if (navigateTo) setTimeout(() => navigation.navigate(navigateTo), timeoutNavigate)
+            }}>
             <Text style={styles.buttonText}>{children}</Text>
         </TouchableOpacity>
     );

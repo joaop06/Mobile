@@ -1,6 +1,6 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useCallback } from 'react';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { StyleSheet, Alert, BackHandler, Modal } from 'react-native';
 import { ScreenWidth, ScreenHeight } from '../utils/Dimensions';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -12,8 +12,11 @@ import Title from '../components/Title';
 import Button from '../components/Button';
 import Container from '../components/Container';
 
+import MMKV from '../utils/MMKV/MMKV';
 import { Colors, Components } from '../utils/Stylization';
 const { Icons, Containers } = Components
+
+
 
 /**
  * ***** Tela de Dashboard/Home *****
@@ -36,16 +39,51 @@ const config = {
 const Home = () => {
     navigation = useNavigation()
 
+    useFocusEffect(
+        useCallback(() => {
+            const onBackPress = () => {
+                Alert.alert(
+                    'Logout Confirm',
+                    'Deseja sair?',
+                    [
+                        {
+                            text: 'Cancelar',
+                            onPress: () => null,
+                            style: 'cancel'
+                        },
+                        {
+                            text: 'Sair',
+                            onPress: () => {
+                                MMKV.set('isLoggedIn', false);
+                                setTimeout(() => {
+
+                                    // navigation.navigate('Loading')
+                                    navigation.goBack()
+                                }, 500)
+                            }
+                        }
+                    ],
+                    { cancelable: false }
+                )
+
+                return true
+            }
+
+            BackHandler.addEventListener('hardwareBackPress', onBackPress)
+
+            return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress)
+        }, [])
+    )
+
+
+
     return (
         <Container>
             <Title>Dashboards Controle Financeiro</Title>
 
             <Text style={{ fontSize: 22 }}>Saldo<Title style={styles.balance}> R$ {'0,00'}</Title ></Text >
 
-            <Button navigateTo={'Login'}>Login</Button>
-
             <Container style={{ backgroundColor: Colors.red }}></Container>
-
 
         </Container >
     );

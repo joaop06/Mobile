@@ -69,6 +69,10 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
 
+project.ext.react = [
+  enableHermes: true  // Habilite o Hermes aqui
+]
+
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -82,6 +86,9 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    rootProject.ext.react = [
+        enableHermes: true  // Habilite o Hermes aqui
+    ]
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
@@ -107,6 +114,8 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    implementation project(':react-native-mmkv')
+
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
@@ -117,3 +126,4 @@ dependencies {
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+// apply from: file("../../node_modules/react-native-mmkv/android/mmkv-android.gradle")

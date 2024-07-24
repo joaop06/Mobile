@@ -1,18 +1,22 @@
 import * as React from 'react';
 import 'react-native-gesture-handler';
+import MMKV from './src/utils/MMKV/MMKV.jsx';
 import { enableScreens } from 'react-native-screens';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-enableScreens();
 
+/**
+ * Pages
+*/
 import Home from './src/pages/Home.jsx';
-import Login from './src/pages/Login.jsx';
+import Loading from './src/pages/Loading.jsx';
 import Releases from './src/pages/Releases.jsx';
 import Categories from './src/pages/Categories.jsx';
 import MonthEndClosing from './src/pages/MonthEndClosing.jsx';
 
-
+MMKV.init()
+enableScreens();
 const Stack = createStackNavigator();
 const newStackScreen = (name, component, options = {}) => {
   return <Stack.Screen name={name} component={component} options={options} />
@@ -39,8 +43,8 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        {newStackScreen(Loading.name, Loading.screen, Loading.config)}
         {newStackScreen('Main', MyTabs, { headerShown: false })}
-        {newStackScreen(Login.name, Login.screen, Login.config)}
       </Stack.Navigator>
     </NavigationContainer>
   )
