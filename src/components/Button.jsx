@@ -3,22 +3,23 @@ import { Colors } from '../utils/Stylization';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const Button = ({ children, navigateTo, timeoutNavigate = 0, onPress = () => { } }) => {
+const Button = ({ children, style = {}, navigateTo, timeoutNavigate = 0, onPress = () => { } }) => {
+    const { button, text } = style
     const navigation = useNavigation();
 
     return (
         <TouchableOpacity
-            style={styles.button}
+            style={{ ...stylesDefault.button, ...button }}
             onPress={() => {
                 onPress()
                 if (navigateTo) setTimeout(() => navigation.navigate(navigateTo), timeoutNavigate)
             }}>
-            <Text style={styles.buttonText}>{children}</Text>
+            <Text style={{ ...stylesDefault.buttonText, ...text }}>{children}</Text>
         </TouchableOpacity>
     );
 };
 
-const styles = StyleSheet.create({
+const stylesDefault = StyleSheet.create({
     button: {
         margin: 5,
         padding: 15,

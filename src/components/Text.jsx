@@ -2,7 +2,7 @@ import React from 'react';
 import { Colors } from '../utils/Stylization';
 import { Text as TextNative, StyleSheet } from 'react-native';
 
-const Text = ({ children, style }) => {
+const Text = ({ children, style = {} }) => {
     return <TextNative style={{ ...styles.text, ...style }}>{children}</TextNative>;
 };
 

@@ -35,15 +35,15 @@ export default class MMKV {
 
         switch (type) {
             case 'string':
-                this.storage.getString(value);
+                this.storage.setString(key, value);
                 break
 
             case 'boolean':
-                this.storage.getBool(value);
+                this.storage.setBool(key, value);
                 break
 
             case 'number':
-                this.storage.getInt(value);
+                this.storage.setInt(key, value);
                 break
         }
     }

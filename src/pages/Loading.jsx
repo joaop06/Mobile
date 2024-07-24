@@ -5,7 +5,6 @@
  *  - Opções de login via e-mail/senha, Google ou Facebook.
  * 
 */
-
 import MMKV from '../utils/MMKV/MMKV';
 import { useState, useEffect } from 'react';
 import { Colors } from '../utils/Stylization';
@@ -30,21 +29,13 @@ const Loading = () => {
     const [verifyingSession, setVerifyingSession] = useState(true)
 
 
-    const startSession = () => {
-        try {
-            MMKV.set('isLoggedIn', true);
-            setTimeout(() => setIsLoggedIn(true), 500)
-        } catch (e) {
-            console.error(e)
-        }
+    const startSession = async () => {
+        await MMKV.set('isLoggedIn', true);
+        setIsLoggedIn(true)
     }
-
 
     const verifySession = async () => {
         const isLogged = await MMKV.find('isLoggedIn')
-        // const isLogged = MMKV.getBoolean('isLoggedIn', false);
-
-        console.log(`Verificando Sessão => Está logado? ${JSON.stringify(isLogged)}`)
         setIsLoggedIn(isLogged)
         return isLogged
     }
@@ -57,16 +48,12 @@ const Loading = () => {
      * Verifica o estado do Login do Usuário
      */
     useEffect(() => {
-        // if (verifyingSession) {
         const timer = setTimeout(() => {
-            if (isLoggedIn) {
-                setTimeout(() => navigation.navigate('Main'), 500)
-            }
             setVerifyingSession(false);
-        }, 2000);
+            if (isLoggedIn) navigation.navigate('Main');
+        }, 1500);
 
         return () => clearTimeout(timer);
-        // }
 
     }, [isLoggedIn, navigation])
 
@@ -77,10 +64,10 @@ const Loading = () => {
             <Text>{verifyingSession ? 'Verificando Login...' : isLoggedIn ? 'Seja Bem-vindo!' : 'Bem-vindo de volta, realize seu Login!'}</Text>
 
 
-            {/* <Container>
+            <Container>
                 <Input placeholder={'Usuário'}></Input>
                 <Input placeholder={'Senha'}></Input>
-            </Container> */}
+            </Container>
 
             <Button onPress={startSession}>Acessar</Button>
 

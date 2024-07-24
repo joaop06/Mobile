@@ -6,6 +6,7 @@ export const Colors = {
     grey_darken: '#424242',
     grey: '#BDBDBD', // Textos no geral 
     grey_lighten: '#F5F5F5', // (grey-lighten-4) Usado em cor de fundo,
+    transparent: 'rgba(0, 0, 0, 0)'
 }
 
 

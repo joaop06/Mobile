@@ -1,15 +1,18 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
 import { Colors } from '../utils/Stylization';
+import { View, StyleSheet } from 'react-native';
+import { ScreenWidth, ScreenHeight } from '../utils/Dimensions';
 
-const Container = ({ children }) => {
-    return <View style={styles.container}>{children}</View>;
+const Container = ({ children, style = {} }) => {
+    return <View style={{ ...styles.container, ...style }}>{children}</View>;
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
+        padding: 10,
+        width: ScreenWidth,
+        height: ScreenHeight,
         backgroundColor: Colors.grey_lighten,
     },
 });

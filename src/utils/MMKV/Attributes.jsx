@@ -19,4 +19,8 @@ module.exports = {
         type: 'string',
         defaultValue: '',
     },
+    username: {
+        type: 'string',
+        defaultValue: 'João'
+    },
 }

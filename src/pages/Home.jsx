@@ -1,12 +1,13 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { StyleSheet, Alert, BackHandler, Modal } from 'react-native';
+import { StyleSheet, BackHandler } from 'react-native';
 import { ScreenWidth, ScreenHeight } from '../utils/Dimensions';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
 /** Components */
 import Text from '../components/Text';
+import Alert from '../components/Alert';
 import Input from '../components/Input';
 import Title from '../components/Title';
 import Button from '../components/Button';
@@ -39,51 +40,42 @@ const config = {
 const Home = () => {
     navigation = useNavigation()
 
+    const [isAlertVisible, setIsAlertVisible] = useState(false);
+
+    const showAlert = () => setIsAlertVisible(true);
+    const hideAlert = () => setIsAlertVisible(false);
+
+    const handleConfirm = async () => {
+        hideAlert();
+        await MMKV.set('isLoggedIn', false);
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'Loading' }]
+        });
+    };
+
     useFocusEffect(
         useCallback(() => {
             const onBackPress = () => {
-                Alert.alert(
-                    'Logout Confirm',
-                    'Deseja sair?',
-                    [
-                        {
-                            text: 'Cancelar',
-                            onPress: () => null,
-                            style: 'cancel'
-                        },
-                        {
-                            text: 'Sair',
-                            onPress: () => {
-                                MMKV.set('isLoggedIn', false);
-                                setTimeout(() => {
-
-                                    // navigation.navigate('Loading')
-                                    navigation.goBack()
-                                }, 500)
-                            }
-                        }
-                    ],
-                    { cancelable: false }
-                )
-
-                return true
+                showAlert();
+                return true;
             }
 
-            BackHandler.addEventListener('hardwareBackPress', onBackPress)
-
-            return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress)
+            BackHandler.addEventListener('hardwareBackPress', onBackPress);
+            return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
         }, [])
-    )
-
+    );
 
 
     return (
         <Container>
             <Title>Dashboards Controle Financeiro</Title>
 
-            <Text style={{ fontSize: 22 }}>Saldo<Title style={styles.balance}> R$ {'0,00'}</Title ></Text >
+            <Text style={{ fontSize: 22 }}>
+                Saldo <Title style={styles.balance}>R$ {'0,00'}</Title >
+            </Text >
 
-            <Container style={{ backgroundColor: Colors.red }}></Container>
+            <Alert isVisible={isAlertVisible} onCancel={hideAlert} onConfirm={handleConfirm} />
 
         </Container >
     );
