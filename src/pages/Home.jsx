@@ -14,8 +14,8 @@ import Button from '../components/Button';
 import Container from '../components/Container';
 
 import MMKV from '../utils/MMKV/MMKV';
-import { Colors, Components } from '../utils/Stylization';
-const { Icons, Containers } = Components
+import { Components } from '../utils/Stylization';
+const { Icons } = Components
 
 
 
