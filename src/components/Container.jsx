@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         width: ScreenWidth,
+        alignItems: 'center',
         height: ScreenHeight,
         backgroundColor: Colors.grey_lighten,
     },
