@@ -21,6 +21,10 @@ module.exports = {
     },
     username: {
         type: 'string',
-        defaultValue: 'João'
+        defaultValue: 'João',
     },
+    totalBalance: {
+        type: 'number',
+        defaultValue: 0.00,
+    }
 }

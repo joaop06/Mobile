@@ -1,39 +1,43 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { Colors } from '../utils/Stylization';
-import { TextInput, StyleSheet } from 'react-native';
-import { ScreenWidth, ScreenHeight } from '../utils/Dimensions'
+import { TextInput } from 'react-native-paper';
+import { ScreenWidth, ScreenHeight } from '../utils/Dimensions';
 
 const Input = ({
+    label,
     style = {},
     placeholder,
-    keyboardType,
-    placeholderTextColor,
+    mode = 'flat',
+    disabled = false, // Desabilitar Input
+    inputMode = 'text', // 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url'
+    placeholderColor,
     secureTextEntry = false,
-    onChangeText = () => { }
+    onChangeValue = (value) => { }
 }) => {
     return (
         <TextInput
+            mode={mode}
+            label={label}
+            disabled={disabled}
+            inputMode={inputMode}
             placeholder={placeholder}
-            keyboardType={keyboardType}
-            onChangeText={onChangeText}
+            onChangeText={onChangeValue}
+            style={[styles.input, style]}
             secureTextEntry={secureTextEntry}
-            style={{ ...styles.input, ...style }}
-            placeholderTextColor={placeholderTextColor || Colors.black}
+            theme={{ colors: { primary: Colors.blue } }}
+            placeholderTextColor={placeholderColor || Colors.grey}
         />
     );
 };
 
 const styles = StyleSheet.create({
     input: {
-        padding: 10,
-        borderWidth: 1,
-        borderRadius: 10,
-        marginBottom: 20,
-        color: Colors.black,
-        borderColor: Colors.blue,
-        width: ScreenWidth * 0.9,
-        height: ScreenHeight * 0.055,
-        backgroundColor: Colors.white,
+        marginBottom: 5,
+        flexDirection: 'row',
+        width: ScreenWidth * 0.8,
+        height: ScreenHeight * 0.07,
+        backgroundColor: Colors.transparent,
     },
 });
 

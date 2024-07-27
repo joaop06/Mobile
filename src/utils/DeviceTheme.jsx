@@ -4,7 +4,7 @@ import { useColorScheme } from "react-native";
 module.exports = () => {
     const [theme, setTheme] = useState(useColorScheme())
 
-    useEffect(() => {
+    // useEffect(() => {
 
-    }, [theme])
+    // }, [theme])
 } 
