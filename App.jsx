@@ -9,10 +9,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 /**
  * Pages
 */
-import Home from './src/pages/Home.jsx';
+import Home from './src/pages/Home/index.jsx';
 import Loading from './src/pages/Loading.jsx';
 import Releases from './src/pages/Releases.jsx';
 import Categories from './src/pages/Categories.jsx';
+import NewTransaction from './src/pages/NewTransaction.jsx';
 import MonthEndClosing from './src/pages/MonthEndClosing.jsx';
 
 MMKV.init()
@@ -45,6 +46,7 @@ function App() {
       <Stack.Navigator>
         {newStackScreen(Loading.name, Loading.screen, Loading.config)}
         {newStackScreen('Main', MyTabs, { headerShown: false })}
+        {newStackScreen(NewTransaction.name, NewTransaction.screen, NewTransaction.config)}
       </Stack.Navigator>
     </NavigationContainer>
   )

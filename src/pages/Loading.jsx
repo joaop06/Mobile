@@ -23,7 +23,7 @@ import { ScreenWidth, ScreenHeight } from '../utils/Dimensions';
 
 
 
-const config = { headerShown: false, };
+const config = { headerShown: false };
 const Loading = () => {
     const navigation = useNavigation()
 
@@ -111,14 +111,19 @@ const Loading = () => {
                 {showCredentialEntry && (
                     <>
                         <Input
+                            label="Usuário"
+                            placeholder="Digite seu usuário"
+                            onChangeValue={(value) => setValue(value, setUsername)}
                             style={[styles.input.default, requestLogin?.error && styles.input.error]}
-                            placeholder="Usuário"
-                            onChangeText={setUsername} />
+                        />
                         <Input
+                            label="Senha"
+                            // secureTextEntry={true}
+                            // textContentType="emailAddress"
+                            onChangeValue={(value) => setValue(value, setPassword)}
+                            placeholder="Digite sua senha"
                             style={[styles.input.default, requestLogin?.error && styles.input.error]}
-                            placeholder="Senha"
-                            onChangeText={setPassword}
-                            secureTextEntry={true} />
+                        />
 
                         <Text
                             style={{ color: Colors.red }}
@@ -146,13 +151,10 @@ const styles = StyleSheet.create({
     },
     input: {
         default: {
-            height: 65,
             marginTop: 10,
-            width: ScreenWidth * 0.8,
-            height: ScreenHeight * 0.07,
         },
         error: {
-            borderColor: Colors.red
+            // borderColor: Colors.red
         },
     },
 })
