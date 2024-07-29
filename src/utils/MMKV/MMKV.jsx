@@ -14,30 +14,20 @@ export default class MMKV {
 
     static async init() {
         this._storage = new MMKVLoader().initialize();
+        const attributesName = Object.keys(Attributes);
 
+        for (const attrName of attributesName) {
+            await this.remove(attrName);
 
-        if (!await this.find('mustResetData')) {
-            const attributesName = Object.keys(Attributes);
+            const isStarting = true
+            const { value, attribute } = await this.find(attrName, isStarting);
 
-            for (const attrName of attributesName) {
-                if (attrName !== 'mustResetData') {
-                    await this.remove(attrName);
-
-                    const isStarting = true
-                    const { value, attribute } = await this.find(attrName, isStarting);
-
-                    if ([null, undefined].includes(value) && value !== attribute.defaultValue) {
-                        await this.set(attrName, attribute.defaultValue, isStarting);
-                    }
-
-                    console.log(`**${attrName}** inicializado: ${await this.find(attrName)}`);
-                }
-
-                !await this.set('mustResetData', true);
+            if ([null, undefined].includes(value) && value !== attribute.defaultValue) {
+                await this.set(attrName, attribute.defaultValue, isStarting);
             }
+
+            console.log(`**${attrName}** inicializado: ${await this.find(attrName)}`);
         }
-
-
     }
 
     static async find(item, isStarting) {
