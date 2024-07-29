@@ -5,9 +5,9 @@
  *  - Campos: valor, data, categoria, descrição.
  *  - Botões para salvar ou cancelar lançamento.
 */
-import { useState } from "react";
 import MMKV from "../utils/MMKV/MMKV";
 import { StyleSheet } from 'react-native';
+import { useState, useEffect } from "react";
 import { useNavigation } from '@react-navigation/native';
 import { Colors, Components } from "../utils/Stylization";
 import { ScreenWidth, ScreenHeight } from '../utils/Dimensions';
@@ -33,21 +33,38 @@ const config = {
     />
 };
 
-const Releases = (data) => {
+const Releases = ({ route }) => {
     navigation = useNavigation();
-    const { origin } = data.route.params
-
+    const origin = route?.params?.origin
 
     const optionsToSelect = [{ name: 'Despesas', origin: 'spending' }, { name: 'Rendas', origin: 'rents' }]
 
+    const [title, setTitle] = useState('')
     const [value, setValue] = useState(0.00)
     const [description, setDescription] = useState('')
-    const [typeRelease, setTypeRelease] = useState(origin.toLowerCase())
+    const [typeRelease, setTypeRelease] = useState((origin || 'spending').toLowerCase())
+
+    
+    /*
+     * Limpa os campos ao montar o componente ou ao mudar de tela
+     */
+    useEffect(() => {
+        setTitle('');
+        setValue(0.00);
+        setDescription('');
+    }, [route]);
 
 
     const onChangeValue = (value = 0.00) => setValue(parseFloat(value))
 
     const handleNewRelease = async () => {
+
+        // Tratativa de campos vazios para inserção
+        if(value <= 0.00 || !title){
+            console.error(`Campos obrigatórios não preenchidos corretamente: Value ${value} // Title '${title}'`)
+            return
+        }
+
         // Todos os Lançamentos do tipo selecionado
         const releases = await MMKV.find(typeRelease)
 
@@ -65,14 +82,13 @@ const Releases = (data) => {
         // Atualiza Saldo Total
         const totalBalance = await MMKV.updateTotalBalance()
 
-        setValue(0.00)
-        setDescription('')
 
         setTimeout(() => {
             navigation.navigate('Início', { totalBalance })
+            setValue(0.00)
+            setDescription('')
         }, 500)
     }
-
 
 
     return (
@@ -97,13 +113,20 @@ const Releases = (data) => {
 
             <Input
                 value={value}
-                label="Valor"
+                label="Valor*"
                 inputMode="decimal"
-                style={styles.value}
+                style={styles.valueRelease}
                 placeholder="Ex: R$ 100,00"
                 onChangeValue={onChangeValue}
             />
 
+            <Input
+                value={title}
+                label="Título*"
+                onChangeValue={setTitle}
+                style={styles.titleRelease}
+                placeholder="Título do lançamento"
+            />
 
             <Label style={styles.labelTextArea}>Descrição</Label>
             <TextArea
@@ -124,7 +147,7 @@ const Releases = (data) => {
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'center',
+        justifyContent: 'space-between',
     },
     containerSelector: {
         flexDirection: 'row',
@@ -158,9 +181,13 @@ const styles = StyleSheet.create({
 
         return { ...defaultStyle, ...selected, }
     },
-    value: {
-        marginTop: 50,
+    valueRelease: {
+        // marginTop: 20,
         borderRadius: 10,
+        width: ScreenWidth * 0.7,
+        backgroundColor: Colors.white,
+    },
+    titleRelease:{
         width: ScreenWidth * 0.7,
         backgroundColor: Colors.white,
     },
