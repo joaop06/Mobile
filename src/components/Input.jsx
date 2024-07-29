@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Colors } from '../utils/Stylization';
 import { TextInput } from 'react-native-paper';
@@ -11,9 +10,9 @@ const Input = ({
     mode = 'flat',
     disabled = false, // Desabilitar Input
     inputMode = 'text', // 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url'
-    placeholderColor,
     secureTextEntry = false,
-    onChangeValue = (value) => { }
+    onChangeValue = () => { },
+    placeholderColor = Colors.grey,
 }) => {
     return (
         <TextInput
@@ -26,7 +25,7 @@ const Input = ({
             style={[styles.input, style]}
             secureTextEntry={secureTextEntry}
             theme={{ colors: { primary: Colors.blue } }}
-            placeholderTextColor={placeholderColor || Colors.grey}
+            placeholderTextColor={placeholderColor}
         />
     );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Colors } from '../utils/Stylization';
+import { ScreenHeight } from '../utils/Dimensions';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
@@ -32,6 +33,7 @@ const stylesDefault = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         backgroundColor: Colors.blue,
+        minHeight: ScreenHeight * 0.06,
     },
     buttonText: {
         fontSize: 18,

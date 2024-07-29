@@ -35,21 +35,23 @@ const Tab = createMaterialTopTabNavigator();
 const { screen: Rents, name: NameRents } = require('./Rents');
 const { screen: Spending, name: NameSpending } = require('./Spending');
 
-const Home = () => {
+const Home = (data) => {
     navigation = useNavigation();
     const [isAlertVisible, setIsAlertVisible] = useState(false);
 
-    const [balance, setBalance] = useState(0.00);
+    const totalBalance = data.route?.params?.totalBalance;
+    const [balance, setBalance] = useState(totalBalance || 0.00);
+
     const getTotalBalance = async () => {
         const currBalance = await MMKV.find('totalBalance')
         setBalance(currBalance)
     }
+    getTotalBalance()
+    // useEffect(() => {
+    //     const interval = setInterval(() => getTotalBalance(), 2500)
 
-    useEffect(() => {
-        const interval = setInterval(() => getTotalBalance(), 2500)
-
-        return () => clearInterval(interval)
-    }, [navigation, balance])
+    //     return () => clearInterval(interval)
+    // }, [navigation, balance])
 
     const showAlert = () => setIsAlertVisible(true);
     const hideAlert = () => setIsAlertVisible(false);
@@ -81,7 +83,7 @@ const Home = () => {
             <Alert isVisible={isAlertVisible} onCancel={hideAlert} onConfirm={handleConfirm} />
 
 
-            <Title style={styles.balance}>Saldo  {balance.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </Title >
+            <Title style={styles.balance}>Saldo  {(balance || 0.00).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </Title >
 
             <Tab.Navigator style={styles.containerTab} onSta onStateChange={state => handleTabChange(state)}>
                 <Tab.Screen name={NameSpending} component={Spending} />

@@ -13,7 +13,7 @@ const Rents = () => {
             <Title>Rendas</Title>
             <Text>Aqui poderá inserir todas as rendas</Text>
 
-            <Button style={styles.addButton} navigateTo={{ name: "NewTransaction", data: { origin: 'Rents' } }}>+</Button>
+            <Button style={styles.addButton} navigateTo={{ name: "Releases", data: { origin: 'Rents' } }}>+</Button>
         </Container>
     )
 }

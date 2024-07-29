@@ -9,7 +9,7 @@ const Axios = axios.create({
 
 Axios.interceptors.request.use(
     (config) => {
-        const token = MMKV.find('access_token')
+        // const token = MMKV.find('access_token')
 
 
     }
