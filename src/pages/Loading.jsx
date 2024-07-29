@@ -118,10 +118,9 @@ const Loading = () => {
                         />
                         <Input
                             label="Senha"
-                            // secureTextEntry={true}
-                            // textContentType="emailAddress"
-                            onChangeValue={(value) => setValue(value, setPassword)}
+                            secureTextEntry={true}
                             placeholder="Digite sua senha"
+                            onChangeValue={(value) => setValue(value, setPassword)}
                             style={[styles.input.default, requestLogin?.error && styles.input.error]}
                         />
 
