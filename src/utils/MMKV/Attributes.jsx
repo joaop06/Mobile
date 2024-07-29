@@ -3,10 +3,6 @@ module.exports = {
     //     type: "string",
     //     defaultValue: "light",
     // },
-    mustResetData: {
-        type: "boolean",
-        defaultValue: false, // Para resetar MMKV
-    },
     isLoggedIn: {
         type: "boolean",
         defaultValue: false,
