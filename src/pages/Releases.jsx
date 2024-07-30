@@ -6,11 +6,12 @@
  *  - Botões para salvar ou cancelar lançamento.
 */
 import MMKV from "../utils/MMKV/MMKV";
-import { StyleSheet } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { useState, useEffect } from "react";
 import { useNavigation } from '@react-navigation/native';
 import { Colors, Components } from "../utils/Stylization";
 import { ScreenWidth, ScreenHeight } from '../utils/Dimensions';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Label from '../components/Label';
@@ -39,12 +40,12 @@ const Releases = ({ route }) => {
 
     const optionsToSelect = [{ name: 'Despesas', origin: 'spending' }, { name: 'Rendas', origin: 'rents' }]
 
-    const [title, setTitle] = useState('')
-    const [value, setValue] = useState(0.00)
-    const [description, setDescription] = useState('')
-    const [typeRelease, setTypeRelease] = useState((origin || 'spending').toLowerCase())
+    const [title, setTitle] = useState('');
+    const [value, setValue] = useState(0.00);
+    const [description, setDescription] = useState('');
+    const [typeRelease, setTypeRelease] = useState((origin || 'spending').toLowerCase());
 
-    
+
     /*
      * Limpa os campos ao montar o componente ou ao mudar de tela
      */
@@ -52,7 +53,7 @@ const Releases = ({ route }) => {
         setTitle('');
         setValue(0.00);
         setDescription('');
-    }, [route]);
+    }, []);
 
 
     const onChangeValue = (value = 0.00) => setValue(parseFloat(value))
@@ -60,8 +61,8 @@ const Releases = ({ route }) => {
     const handleNewRelease = async () => {
 
         // Tratativa de campos vazios para inserção
-        if(value <= 0.00 || !title){
-            console.error(`Campos obrigatórios não preenchidos corretamente: Value ${value} // Title '${title}'`)
+        if (value <= 0.00 || !title) {
+            console.error(`Campos obrigatórios não preenchidos: Value ${value} // Title '${title}'`)
             return
         }
 
@@ -69,32 +70,42 @@ const Releases = ({ route }) => {
         const releases = await MMKV.find(typeRelease)
 
         // Adiciona o Novo Lançamento
-        releases.push({
+        const newRelease = {
             value,
+            title,
             description,
             type: typeRelease,
             created_at: new Date(),
             updated_at: new Date(),
-        })
+            id: releases.length + 1,
+        }
+        releases.push(newRelease)
         await MMKV.set(typeRelease, releases)
 
 
-        // Atualiza Saldo Total
-        const totalBalance = await MMKV.updateTotalBalance()
-
-
-        setTimeout(() => {
-            navigation.navigate('Início', { totalBalance })
-            setValue(0.00)
-            setDescription('')
-        }, 500)
+        // Atualiza Saldo Total e Redireciona para tela inicial
+        navigation.navigate('Início', { totalBalance: await MMKV.updateTotalBalance() });
     }
 
 
     return (
-        <Container style={styles.container}>
-
+        <KeyboardAwareScrollView
+            extraHeight={20}
+            enableOnAndroid={true}
+            extraScrollHeight={20}
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={styles.container}
+        >
             <Title>Novo Lançamento</Title>
+
+            <Input
+                value={value}
+                label="Valor *"
+                inputMode="decimal"
+                style={styles.valueRelease}
+                placeholder="Ex: R$ 100,00"
+                onChangeValue={onChangeValue}
+            />
 
             <Container style={styles.containerSelector}>
                 {optionsToSelect.map((option, index) => (
@@ -112,17 +123,8 @@ const Releases = ({ route }) => {
             </Container>
 
             <Input
-                value={value}
-                label="Valor*"
-                inputMode="decimal"
-                style={styles.valueRelease}
-                placeholder="Ex: R$ 100,00"
-                onChangeValue={onChangeValue}
-            />
-
-            <Input
                 value={title}
-                label="Título*"
+                label="Título *"
                 onChangeValue={setTitle}
                 style={styles.titleRelease}
                 placeholder="Título do lançamento"
@@ -141,18 +143,30 @@ const Releases = ({ route }) => {
             >
                 Adicionar
             </Button>
-        </Container >
+        </KeyboardAwareScrollView >
     )
 }
 
 const styles = StyleSheet.create({
     container: {
+        // flexGrow: 1,
+        paddingTop: 50,
+        alignItems: 'center',
+        maxHeight: ScreenHeight * 1.1,
         justifyContent: 'space-between',
     },
+    valueRelease: {
+        marginTop: 20,
+        borderRadius: 10,
+        width: ScreenWidth * 0.4,
+        backgroundColor: Colors.transparent,
+    },
     containerSelector: {
+        marginTop: 50,
         flexDirection: 'row',
         justifyContent: 'center',
-        maxHeight: ScreenHeight * 0.1
+        maxHeight: ScreenHeight * 0.1,
+        backgroundColor: Colors.grey_lighten,
     },
     containerButton: (typeRelease, origin) => {
         origin = origin.toLowerCase()
@@ -162,8 +176,8 @@ const styles = StyleSheet.create({
         const defaultStyle = {
             borderWidth: 1,
             borderRadius: 20,
-            maxWidth: ScreenWidth * 0.3,
-            minWidth: ScreenWidth * 0.3,
+            maxWidth: ScreenWidth * 0.25,
+            minWidth: ScreenWidth * 0.25,
             backgroundColor: typeRelease === origin ? Colors.blue : Colors.white,
         }
 
@@ -181,15 +195,10 @@ const styles = StyleSheet.create({
 
         return { ...defaultStyle, ...selected, }
     },
-    valueRelease: {
-        // marginTop: 20,
-        borderRadius: 10,
+    titleRelease: {
+        marginTop: 85,
         width: ScreenWidth * 0.7,
-        backgroundColor: Colors.white,
-    },
-    titleRelease:{
-        width: ScreenWidth * 0.7,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
     },
     labelTextArea: {
         marginTop: 30,

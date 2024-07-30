@@ -17,16 +17,12 @@ export default class MMKV {
         const attributesName = Object.keys(Attributes);
 
         for (const attrName of attributesName) {
-            await this.remove(attrName);
-
             const isStarting = true
             const { value, attribute } = await this.find(attrName, isStarting);
 
             if ([null, undefined].includes(value) && value !== attribute.defaultValue) {
                 await this.set(attrName, attribute.defaultValue, isStarting);
             }
-
-            console.log(`**${attrName}** inicializado: ${await this.find(attrName)}`);
         }
     }
 
@@ -64,7 +60,7 @@ export default class MMKV {
         }
     }
 
-    static async set(key, value, isStarting) {
+    static async set(key, value) {
         try {
             const attribute = Attributes[key];
             if (!attribute) throw new Error(`Unknown attribute '${key}'`);
@@ -118,7 +114,7 @@ export default class MMKV {
 
             let totalBalance = 0.00
             const allReleases = rents.concat(spending)
-            console.log('Todos os lançamentos: ', allReleases)
+
             allReleases.forEach(release => {
                 if (release.type === 'rents') totalBalance += release.value
                 else if (release.type === 'spending') totalBalance -= release.value

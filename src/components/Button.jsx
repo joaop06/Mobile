@@ -21,7 +21,12 @@ const Button = ({
                 if (onPress && typeof onPress === 'function') onPress()
                 if (navigateTo.name) setTimeout(() => navigation.navigate(navigateTo.name, navigateTo.data), timeoutNavigate)
             }}>
-            <Text style={{ ...stylesDefault.buttonText, ...text }}>{children}</Text>
+            {
+                typeof children !== 'string' ?
+                    children :
+                    <Text style={{ ...stylesDefault.buttonText, ...text }}>{children}</Text>
+            }
+
         </TouchableOpacity>
     );
 };

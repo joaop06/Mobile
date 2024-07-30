@@ -9,7 +9,7 @@ export const Colors = {
     white: '#FFFFFF',
     grey_darken: '#424242',
     blue_darken: '#0D47A1',
-    blue_lighten: '#64B5F6', // 'blue-lighten-2'
+    blue_lighten: '#90CAF9', // 'blue-lighten-2'
     grey_lighten: '#F5F5F5', // (grey-lighten-4) Usado em cor de fundo,
     transparent: 'rgba(0, 0, 0, 0)'
 }

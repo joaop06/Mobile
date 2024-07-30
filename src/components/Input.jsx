@@ -5,6 +5,8 @@ import { ScreenWidth, ScreenHeight } from '../utils/Dimensions';
 
 const Input = ({
     label,
+    value,
+    maxLength,
     style = {},
     placeholder,
     mode = 'flat',
@@ -18,14 +20,16 @@ const Input = ({
         <TextInput
             mode={mode}
             label={label}
+            value={value}
             disabled={disabled}
             inputMode={inputMode}
+            maxLength={maxLength}
             placeholder={placeholder}
             onChangeText={onChangeValue}
             style={[styles.input, style]}
             secureTextEntry={secureTextEntry}
-            theme={{ colors: { primary: Colors.blue } }}
             placeholderTextColor={placeholderColor}
+            theme={{ colors: { primary: Colors.blue } }}
         />
     );
 };

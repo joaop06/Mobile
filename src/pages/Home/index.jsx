@@ -8,8 +8,8 @@
  */
 import MMKV from '../../utils/MMKV/MMKV';
 import { Components } from '../../utils/Stylization';
-import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, BackHandler } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ScreenWidth, ScreenHeight } from '../../utils/Dimensions';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -42,16 +42,14 @@ const Home = (data) => {
     const totalBalance = data.route?.params?.totalBalance;
     const [balance, setBalance] = useState(totalBalance || 0.00);
 
-    const getTotalBalance = async () => {
-        const currBalance = await MMKV.find('totalBalance')
-        setBalance(currBalance)
-    }
-    getTotalBalance()
-    // useEffect(() => {
-    //     const interval = setInterval(() => getTotalBalance(), 2500)
+    useEffect(() => {
+        const interval = setInterval(async () => {
+            setBalance(await MMKV.find('totalBalance'))
+        }, 3000)
 
-    //     return () => clearInterval(interval)
-    // }, [navigation, balance])
+        return () => clearInterval(interval)
+    }, [])
+
 
     const showAlert = () => setIsAlertVisible(true);
     const hideAlert = () => setIsAlertVisible(false);
